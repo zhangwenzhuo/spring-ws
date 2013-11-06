@@ -5,7 +5,7 @@
     <bookinfo>
         <title>Spring Web Services</title>
         <subtitle>Reference Documentation</subtitle>
-        <releaseinfo><?eval ${project.version}?></releaseinfo>
+        <releaseinfo>${version}</releaseinfo>
 
         <authorgroup>
             <author>

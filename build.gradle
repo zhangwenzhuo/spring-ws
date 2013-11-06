@@ -4,7 +4,7 @@ buildscript {
 	}
 	dependencies {
 		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.4'
-		classpath 'org.springframework.build.gradle:docbook-reference-plugin:0.2.5'
+		classpath 'org.springframework.build.gradle:docbook-reference-plugin:0.2.7'
 	}
 }
 
@@ -16,8 +16,9 @@ configure(allprojects) {
 	ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
 	apply plugin: "java"
+	apply plugin: "idea"
+	apply plugin: "eclipse"
 	apply plugin: "propdeps"
-	apply from: "${gradleScriptDir}/ide.gradle"
 
 /*	[compileJava, compileTestJava]*.options*.compilerArgs = [
 		"-Xlint:serial",
@@ -79,7 +80,7 @@ configure(allprojects) {
 }
 
 configure(subprojects) { subproject ->
-	apply from: "${gradleScriptDir}/publish-maven.gradle"
+//	apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 	jar {
 		manifest.attributes["Created-By"] =
@@ -102,7 +103,7 @@ configure(subprojects) { subproject ->
 		options.author = true
 		options.header = project.name
 		options.links(project.ext.javadocLinks)
-		options.addStringOption('Xdoclint:none', '-quiet')
+//		options.addStringOption('Xdoclint:none', '-quiet')
 
 		// suppress warnings due to cross-module @see and @link references;
 		// note that global 'api' task does display all warnings.
