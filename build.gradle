@@ -13,7 +13,6 @@ configure(allprojects) {
 	
 	ext.springVersion = "3.2.4.RELEASE"
 	ext.axiomVersion = "1.2.14"
-	ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
 	apply plugin: "java"
 	apply plugin: "idea"
@@ -57,7 +56,7 @@ configure(allprojects) {
 	}
 
 	repositories {
-		maven { url "http://repo.springsource.org/libs-release" }
+		maven { url 'http://repo.spring.io/libs-release' }
 	}
 
 	dependencies {
@@ -80,7 +79,6 @@ configure(allprojects) {
 }
 
 configure(subprojects) { subproject ->
-//	apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 	jar {
 		manifest.attributes["Created-By"] =
