@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(DelegatingWebMvcConfiguration.class)
+@Import(DelegatingWsConfiguration.class)
 public @interface EnableWs {
 
 }

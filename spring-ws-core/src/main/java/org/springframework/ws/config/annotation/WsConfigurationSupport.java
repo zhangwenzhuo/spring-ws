@@ -16,16 +16,27 @@
 
 package org.springframework.ws.config.annotation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.server.endpoint.adapter.DefaultMethodEndpointAdapter;
+import org.springframework.ws.server.endpoint.adapter.method.MethodArgumentResolver;
+import org.springframework.ws.server.endpoint.adapter.method.MethodReturnValueHandler;
 import org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping;
 import org.springframework.ws.soap.addressing.server.AnnotationActionEndpointMapping;
+import org.springframework.ws.soap.server.endpoint.SimpleSoapExceptionResolver;
+import org.springframework.ws.soap.server.endpoint.SoapFaultAnnotationExceptionResolver;
 import org.springframework.ws.soap.server.endpoint.mapping.SoapActionAnnotationMethodEndpointMapping;
 
 /**
  * @author Arjen Poutsma
  */
 public class WsConfigurationSupport {
+
+	private List<EndpointInterceptor> interceptors;
 
 	@Bean
 	public PayloadRootAnnotationMethodEndpointMapping payloadRootAnnotationMethodEndpointMapping() {
@@ -54,10 +65,59 @@ public class WsConfigurationSupport {
 		return endpointMapping;
 	}
 
-
 	protected final EndpointInterceptor[] getInterceptors() {
-		throw new UnsupportedOperationException("Not implemented yet");
+		if (interceptors == null) {
+			interceptors = new ArrayList<EndpointInterceptor>();
+			addInterceptors(interceptors);
+		}
+		return interceptors.toArray(new EndpointInterceptor[interceptors.size()]);
 	}
+
+	protected void addInterceptors(List<EndpointInterceptor> interceptors) {
+
+	}
+
+	@Bean
+	public DefaultMethodEndpointAdapter defaultMethodEndpointAdapter() {
+		List<MethodArgumentResolver> argumentResolvers =
+				new ArrayList<MethodArgumentResolver>();
+		addArgumentResolvers(argumentResolvers);
+
+		List<MethodReturnValueHandler> returnValueHandlers =
+				new ArrayList<MethodReturnValueHandler>();
+		addReturnValueHandlers(returnValueHandlers);
+
+		DefaultMethodEndpointAdapter adapter = new DefaultMethodEndpointAdapter();
+		adapter.setMethodArgumentResolvers(argumentResolvers);
+		adapter.setMethodReturnValueHandlers(returnValueHandlers);
+
+		return adapter;
+	}
+
+	protected void addArgumentResolvers(List<MethodArgumentResolver> argumentResolvers) {
+	}
+
+	protected void addReturnValueHandlers(
+			List<MethodReturnValueHandler> returnValueHandlers) {
+	}
+
+	@Bean
+	public SoapFaultAnnotationExceptionResolver soapFaultAnnotationExceptionResolver() {
+		SoapFaultAnnotationExceptionResolver exceptionResolver = new SoapFaultAnnotationExceptionResolver();
+		exceptionResolver.setOrder(0);
+
+		return exceptionResolver;
+	}
+
+	@Bean
+	public SimpleSoapExceptionResolver simpleSoapExceptionResolver() {
+		SimpleSoapExceptionResolver exceptionResolver = new SimpleSoapExceptionResolver();
+		exceptionResolver.setOrder(Ordered.LOWEST_PRECEDENCE);
+
+		return exceptionResolver;
+	}
+
+	//TODO: exception resolvers
 
 
 }
